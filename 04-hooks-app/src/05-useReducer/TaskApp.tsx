@@ -18,22 +18,42 @@ export const TasksApp = () => {
   const [inputValue, setInputValue] = useState('');
 
   const addTodo = () => {
-    console.log('Agregar tarea', inputValue);
+    if (inputValue.length === 0) return;
+
+    const newTodo: Todo = {
+      id: Date.now(),
+      text: inputValue.trim(),
+      completed: false,
+    }
+
+    setTodos([...todos, newTodo]);
+    // setTodos((prev) => [...prev, newTodo]);
+
+    setInputValue('');
 
   };
 
   const toggleTodo = (id: number) => {
-    console.log('Cambiar de true a false', id);
+    const updateTodos = todos.map(todo => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed }
+      }
+      return todo;
+    });
 
+    setTodos(updateTodos);
   };
 
   const deleteTodo = (id: number) => {
-    console.log('Eliminar tarea', id);
+    const updateTodos = todos.filter((todo) => todo.id != id);
+    setTodos(updateTodos);
 
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    console.log('Presiono enter');
+    if (e.key === 'Enter') {
+      addTodo();
+    }
 
   };
 
@@ -118,11 +138,10 @@ export const TasksApp = () => {
                 {todos.map((todo) => (
                   <div
                     key={todo.id}
-                    className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 ${
-                      todo.completed
-                        ? 'bg-slate-50 border-slate-200'
-                        : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
-                    }`}
+                    className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 ${todo.completed
+                      ? 'bg-slate-50 border-slate-200'
+                      : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
+                      }`}
                   >
                     <Checkbox
                       checked={todo.completed}
@@ -130,11 +149,10 @@ export const TasksApp = () => {
                       className="data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
                     />
                     <span
-                      className={`flex-1 transition-all duration-200 ${
-                        todo.completed
-                          ? 'text-slate-500 line-through'
-                          : 'text-slate-800'
-                      }`}
+                      className={`flex-1 transition-all duration-200 ${todo.completed
+                        ? 'text-slate-500 line-through'
+                        : 'text-slate-800'
+                        }`}
                     >
                       {todo.text}
                     </span>
