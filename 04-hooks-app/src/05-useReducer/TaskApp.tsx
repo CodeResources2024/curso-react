@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 
 import { Plus, Trash2, Check } from 'lucide-react';
 
@@ -6,48 +6,27 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-}
+import { getTasksInitialState, taskReducer } from './reducer/tasksReducer';
 
 export const TasksApp = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState('');
+  // const [todos, setTodos] = useState<Todo[]>([]);
+  const [state, dispatch] = useReducer(taskReducer, getTasksInitialState());
 
   const addTodo = () => {
-    if (inputValue.length === 0) return;
-
-    const newTodo: Todo = {
-      id: Date.now(),
-      text: inputValue.trim(),
-      completed: false,
-    }
-
-    setTodos([...todos, newTodo]);
-    // setTodos((prev) => [...prev, newTodo]);
-
+    dispatch({ type: 'ADD_TODO', payload: inputValue })
     setInputValue('');
 
   };
 
   const toggleTodo = (id: number) => {
-    const updateTodos = todos.map(todo => {
-      if (todo.id === id) {
-        return { ...todo, completed: !todo.completed }
-      }
-      return todo;
-    });
+    dispatch({ type: 'TOOGLE_TODO', payload: id })
 
-    setTodos(updateTodos);
   };
 
   const deleteTodo = (id: number) => {
-    const updateTodos = todos.filter((todo) => todo.id != id);
-    setTodos(updateTodos);
 
+    dispatch({ type: 'DELETE_TODO', payload: id })
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -57,11 +36,12 @@ export const TasksApp = () => {
 
   };
 
-  const completedCount = todos.filter((todo) => todo.completed).length;
-  const totalCount = todos.length;
+  const { todos, completed, length } = state;
+  // const completedCount = todos.filter((todo) => todo.completed).length;
+  // const totalCount = todos.length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 p-4">
       <div className="mx-auto max-w-2xl">
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-slate-800 mb-2">
@@ -92,7 +72,7 @@ export const TasksApp = () => {
           </CardContent>
         </Card>
 
-        {totalCount > 0 && (
+        {length > 0 && (
           <Card className="mb-6 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
             <CardHeader className="pb-3">
               <CardTitle className="text-lg font-semibold text-slate-700">
@@ -102,14 +82,14 @@ export const TasksApp = () => {
             <CardContent className="pt-0">
               <div className="flex items-center justify-between text-sm text-slate-600 mb-2">
                 <span>
-                  {completedCount} de {totalCount} completadas
+                  {completed} de {length} completadas
                 </span>
-                <span>{Math.round((completedCount / totalCount) * 100)}%</span>
+                <span>{Math.round((completed / length) * 100)}%</span>
               </div>
               <div className="w-full bg-slate-200 rounded-full h-2">
                 <div
-                  className="bg-gradient-to-r from-green-400 to-green-500 h-2 rounded-full transition-all duration-300 ease-out"
-                  style={{ width: `${(completedCount / totalCount) * 100}%` }}
+                  className="bg-linear-to-r from-green-400 to-green-500 h-2 rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${(completed / length) * 100}%` }}
                 />
               </div>
             </CardContent>
