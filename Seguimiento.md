@@ -1,4 +1,3 @@
-[Por donde voy](https://cursos.devtalles.com/courses/take/react-de-cero/lessons/66281520-scramble-reducer-controlar-un-estado-complejo)
+### Voy por aqui --> 
 
-
-Acabando 10:40
+https://cursos.devtalles.com/courses/take/react-de-cero/lessons/66319457-continuacion-de-aplicacion

@@ -52,9 +52,11 @@ export const ScrambleWords = () => {
   const [guess, setGuess] = useState('');
   const [points, setPoints] = useState(0);
   const [errorCounter, setErrorCounter] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [maxAllowErrors, setMaxAllowErrors] = useState(3);
 
   const [skipCounter, setSkipCounter] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [maxSkips, setMaxSkips] = useState(3);
 
   const [isGameOver, setIsGameOver] = useState(false);
