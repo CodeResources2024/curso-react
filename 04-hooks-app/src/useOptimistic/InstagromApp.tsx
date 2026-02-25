@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useOptimistic, useState, useTransition } from 'react';
+import { toast } from 'sonner'
 
 interface Comment {
     id: number;
@@ -6,24 +7,68 @@ interface Comment {
     optimistic?: boolean;
 }
 
+let lastId = 2;
+
 export const InstagromApp = () => {
+
+    const [isPending, starTransition] = useTransition();
+
+
     const [comments, setComments] = useState<Comment[]>([
         { id: 1, text: '¡Gran foto!' },
         { id: 2, text: 'Me encanta 🧡' },
     ]);
 
+
+    const [optimisticCommnets, addOptimisticComment] = useOptimistic(comments,
+        (currentComments, newComment: string) => {
+            lastId++;
+            return [
+                ...currentComments,
+                {
+                    id: lastId,
+                    text: newComment,
+                    optimistic: true,
+                }
+            ];
+        })
+
     const handleAddComment = async (formData: FormData) => {
         const messageText = formData.get('post-message') as string;
-        console.log('Nuevo comentario', messageText);
 
-        //Simular tiempo de espera
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        addOptimisticComment(messageText);
 
-        setComments(prev => [...prev, {
-            id: new Date().getTime(),
-            text: messageText,
-            optimistic: false,
-        }],)
+        starTransition(async () => {
+
+            //Simular tiempo de espera
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+
+
+            // setComments(prev => [...prev, {
+            //     id: new Date().getTime(),
+            //     text: messageText,
+            //     optimistic: false,
+            // }],)
+
+            //!REVERTIR EL PROCESO EN EL CASO DE QUE FALLE LA APP
+            setComments(prev => prev);
+            toast('error al agregar comentario',
+                {
+                    description: 'Intente nuevamente',
+                    duration: 10000,
+                    position: 'bottom-right',
+                    action: {
+                        label: 'Cerrar',
+                        onClick: () => toast.dismiss(),
+                    }
+
+                }
+            )
+        })
+
+
+
+
     };
 
     return (
@@ -42,7 +87,7 @@ export const InstagromApp = () => {
 
             {/* Comentarios */}
             <ul className="flex flex-col items-start justify-center bg-gray-300 w-125 p-4">
-                {comments.map((comment) => (
+                {optimisticCommnets.map((comment) => (
                     <li key={comment.id} className="flex items-center gap-2 mb-2">
                         <div className="bg-blue-500 rounded-full w-10 h-10 flex items-center justify-center">
                             <span className="text-white text-center">A</span>
@@ -69,7 +114,7 @@ export const InstagromApp = () => {
                 />
                 <button
                     type="submit"
-                    disabled={false}
+                    disabled={isPending}
                     className="bg-blue-500 text-white p-2 rounded-md w-full"
                 >
                     Enviar
