@@ -1,8 +1,11 @@
-import React from 'react'
+import { CustomJumbotron } from '@/components/custom/CustomJumbotron';
 
 export const SearchPage = () => {
     return (
-        <div>SearchPage</div>
+        <>
+            <CustomJumbotron title="Búsqueda de Super Heroes" description="Descubre, explora y administra tus superheroes y villanos." />
+
+        </>
     )
 }
 
