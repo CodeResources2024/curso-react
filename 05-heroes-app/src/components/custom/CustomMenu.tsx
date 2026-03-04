@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router'
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '../ui/navigation-menu'
 import { cn } from '@/lib/utils';
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '@radix-ui/react-navigation-menu';
+
 
 interface MenuItem {
     title: string,
@@ -24,11 +25,11 @@ export const CustomMenu = () => {
     return (
         <>
             <NavigationMenu>
-                <NavigationMenuList>
+                <NavigationMenuList className='flex gap-2 items-center'>
                     {
                         menuItems.map((item) => (
                             <NavigationMenuItem key={item.routeName}>
-                                <NavigationMenuLink asChild className={cn(isActive(item.routeName) && 'bg-slate-300', 'p - 2 rounded-md')}>
+                                <NavigationMenuLink asChild className={cn(isActive(item.routeName) && 'bg-slate-200', 'p-2 rounded-md')}>
                                     <Link to={item.routeName}>{item.title}</Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
