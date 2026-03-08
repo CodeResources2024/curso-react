@@ -8,10 +8,20 @@ import { HeroGrid } from "@/heroes/components/HeroGrid"
 import { useState } from "react"
 import { CustomPagintation } from "@/components/custom/CustomPagintation"
 import { CustomBreadCrumbs } from "@/components/custom/CustomBreadCrumbs"
+import { getHeroesByPageAction } from "@/heroes/actions/get-heros-by-page.action"
+import { useQuery } from "@tanstack/react-query"
 
 export const HomePage = () => {
 
   const [activetab, setActivetab] = useState<'all' | 'favorites' | 'heroes' | 'villains'>('all');
+
+  const { data: heroesResponse } = useQuery({
+    queryKey: ['heroes'],
+    queryFn: () => getHeroesByPageAction(),
+    staleTime: 1000 * 60 * 5, //5min
+  });
+
+  console.log({ heroesResponse })
 
   return (
     <>

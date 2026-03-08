@@ -111,5 +111,7 @@ export const HeroGridCard = () => {
                 <div className="text-xs text-gray-500 pt-2 border-t">First appeared: 1938</div>
             </CardContent>
         </Card>
+
+        
     )
 }
