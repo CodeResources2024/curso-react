@@ -48,6 +48,8 @@ export const HomePage = () => {
             <TabsTrigger value="all" onClick={() => {
               setSearchParams((prev) => {
                 prev.set('tab', 'all');
+                prev.set('category', 'all');
+                prev.set('page', '1');
                 return prev;
               })
             }}>All Characters ({summary?.totalHeroes})</TabsTrigger>
@@ -63,12 +65,16 @@ export const HomePage = () => {
             <TabsTrigger value="heroes" onClick={() => {
               setSearchParams((prev) => {
                 prev.set('tab', 'heroes');
+                prev.set('category', 'hero');
+                prev.set('page', '1');
                 return prev;
               })
             }}>Heroes ({summary?.heroCount})</TabsTrigger>
             <TabsTrigger value="villains" onClick={() => {
               setSearchParams((prev) => {
                 prev.set('tab', 'villains');
+                prev.set('category', 'villain');
+                prev.set('page', '1');
                 return prev;
               })
             }}>Villains ({summary?.villainCount})</TabsTrigger>
@@ -87,11 +93,11 @@ export const HomePage = () => {
           </TabsContent>
           <TabsContent value="heroes">
             <h1>Heroes</h1>
-            <HeroGrid heroes={[]} />
+            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
           <TabsContent value="villains">
             <h1>Villains</h1>
-            <HeroGrid heroes={[]} />
+            <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
         </Tabs>
 
