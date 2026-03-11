@@ -1,9 +1,13 @@
 import { CustomBreadCrumbs } from '@/components/custom/CustomBreadCrumbs'
+import { useParams } from 'react-router'
 
 export const HeroPage = () => {
+
+    const { idSlug = '' } = useParams();
+
     return (
         <>
-            <div>HeroPages</div>
+            <div>{idSlug}</div>
             <CustomBreadCrumbs currentPage='Heroes' />
         </>
     )
