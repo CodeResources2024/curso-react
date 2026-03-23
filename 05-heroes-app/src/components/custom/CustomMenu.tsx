@@ -24,7 +24,7 @@ export const CustomMenu = () => {
 
     return (
         <>
-            <NavigationMenu>
+            <NavigationMenu className='py-5'>
                 <NavigationMenuList className='flex gap-2 items-center'>
                     {
                         menuItems.map((item) => (
