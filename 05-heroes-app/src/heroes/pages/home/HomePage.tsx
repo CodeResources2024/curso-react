@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router"
-import { useMemo } from "react"
+import { use, useMemo } from "react"
 
 import { Heart } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -10,6 +10,7 @@ import { CustomPagintation } from "@/components/custom/CustomPagintation"
 import { CustomBreadCrumbs } from "@/components/custom/CustomBreadCrumbs"
 import { useHeroSummary } from "@/heroes/hooks/useHeroSummary"
 import { usePagintatedHero } from "@/heroes/hooks/usePagintatedHero"
+import { FavoriteHeroContext } from "@/heroes/context/FavoriteHeroContext"
 
 export const HomePage = () => {
 
@@ -29,6 +30,7 @@ export const HomePage = () => {
   // hook para query
   const { data: heroesResponse } = usePagintatedHero(+page, +limit, category);
   const { data: summary } = useHeroSummary();
+   const {favoriteCount, favorites} = use(FavoriteHeroContext);
 
   console.log({ heroesResponse })
 
@@ -60,7 +62,7 @@ export const HomePage = () => {
               })
             }} className="flex items-center gap-2">
               <Heart className="h-4 w-4" />
-              Favorites (3)
+              Favorites ({favoriteCount})
             </TabsTrigger>
             <TabsTrigger value="heroes" onClick={() => {
               setSearchParams((prev) => {
@@ -88,8 +90,8 @@ export const HomePage = () => {
             <HeroGrid heroes={heroesResponse?.heroes ?? []} />
           </TabsContent>
           <TabsContent value="favorites">
-            <h1>Favorites</h1>
-            <HeroGrid heroes={[]} />
+            
+            <HeroGrid heroes={favorites} />
           </TabsContent>
           <TabsContent value="heroes">
             <h1>Heroes</h1>
@@ -103,9 +105,14 @@ export const HomePage = () => {
 
 
         {/* Pagination */}
-        <CustomPagintation
-          totalPages={heroesResponse?.pages ?? 0}
-        />
+        {
+          selectedTab != 'favorites' && (
+
+            <CustomPagintation
+            totalPages={heroesResponse?.pages ?? 0}
+            />
+          )
+        }
       </>
     </>
   )
