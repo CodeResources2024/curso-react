@@ -26,11 +26,13 @@ export const HeroGridCard = ({ hero }: Props) => {
 
     return (
         <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-linear-to-br from-white to-gray-50">
-            <div className="relative h-64">
+            <div className="relative h-64 overflow-hidden">
                 <img
-                    src={hero.image}
+                    src={hero.image || '/placeholder.svg'}
                     alt={hero.name}
-                    className="object-cover transition-all duration-500 group-hover:scale-110 absolute -top-7.5 w-full h-102.5"
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
+                    onError={(event) => { event.currentTarget.src = '/placeholder.svg' }}
                     onClick={handleClick}
                 />
 
