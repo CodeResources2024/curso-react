@@ -1,4 +1,29 @@
-# React + TypeScript + Vite
+# Teslo Shop
+
+Aplicación React + TypeScript + Vite para el proyecto Teslo Shop.
+
+## Ejecución rápida
+
+Desde la carpeta del proyecto:
+
+```bash
+cd 07-teslo-shop/teslo-shop
+npm install
+npm run dev
+```
+
+Abre el navegador en la URL que indique Vite (normalmente `http://localhost:5173`).
+
+## Scripts disponibles
+
+```bash
+npm run dev    # Inicia el servidor de desarrollo
+npm run build  # Genera la versión de producción
+npm run preview # Previsualiza la build localmente
+npm run lint   # Ejecuta ESLint
+```
+
+## Acerca de este template
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

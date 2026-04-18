@@ -8,8 +8,8 @@ import { AdminLayout } from '@/admin/layouts/AdminLayout';
 import { lazy } from 'react';
 
 
-// const SearchPage = lazy(() => import('@/heroes/pages/search/SearchPage').then(module => ({default: module.SearchPage})))
-const SearchPage = lazy(() => import('@/heroes/pages/search/SearchPage'));
+const SearchPage = lazy(() => import('@/heroes/pages/search/SearchPage').then(module => ({default: module.SearchPage})))
+// const SearchPage = lazy(() => import('@/heroes/pages/search/SearchPage'));
 
 export const appRouter = createBrowserRouter([
 

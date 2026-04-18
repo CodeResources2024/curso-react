@@ -1,3 +1,9 @@
 {
-    "scm.compactFolders": false
+    "scm.compactFolders": false,
+    
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.scss": "tailwindcss",
+  
+}
 }
